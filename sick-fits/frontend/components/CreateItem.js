@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import Router from "next/router";
 
 import Form from "./styles/Form";
 import formatMoney from "../lib/formatMoney";
@@ -44,14 +45,19 @@ class CreateItem extends Component {
     const { name, type, value } = e.target;
     const val = type === "number" ? parseFloat(value) : value;
     this.setState({ [name]: val });
+    Router.push({
+      pathname: "/item",
+      query: { id: res.data.createItem.id }
+    });
   };
   render() {
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
           <Form
-            onSubmit={e => {
+            onSubmit={async e => {
               e.preventDefault();
+              const res = await createItem();
             }}
           >
             <Error error={error} />
