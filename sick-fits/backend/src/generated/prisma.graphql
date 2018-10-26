@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/guillaume-dumora/sick-fits/dev
-# timestamp: Tue Oct 23 2018 10:37:30 GMT+0200 (Paris, Madrid (heure d’été))
+# timestamp: Fri Oct 26 2018 23:42:17 GMT+0200 (GMT+02:00)
 
 type AggregateItem {
   count: Int!
@@ -118,6 +118,14 @@ input ItemSubscriptionWhereInput {
 }
 
 input ItemUpdateInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  price: Int
+}
+
+input ItemUpdateManyInput {
   title: String
   description: String
   image: String
@@ -377,8 +385,8 @@ type Mutation {
   deleteItem(where: ItemWhereUniqueInput!): Item
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyInput!, where: UserWhereInput): BatchPayload!
+  updateManyItems(data: ItemUpdateManyInput!, where: ItemWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
 }
@@ -519,6 +527,11 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
+  name: String
+  email: String
+}
+
+input UserUpdateManyInput {
   name: String
   email: String
 }
