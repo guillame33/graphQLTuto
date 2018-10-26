@@ -45,10 +45,6 @@ class CreateItem extends Component {
     const { name, type, value } = e.target;
     const val = type === "number" ? parseFloat(value) : value;
     this.setState({ [name]: val });
-    Router.push({
-      pathname: "/item",
-      query: { id: res.data.createItem.id }
-    });
   };
   uploadFile = async e => {
     const files = e.target.files;
@@ -73,6 +69,10 @@ class CreateItem extends Component {
             onSubmit={async e => {
               e.preventDefault();
               const res = await createItem();
+              Router.push({
+                pathname: "/item",
+                query: { id: res.data.createItem.id }
+              });
             }}
           >
             <Error error={error} />
