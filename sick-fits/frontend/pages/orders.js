@@ -1,14 +1,14 @@
 import React from "react";
 
 import PleaseSignIn from "../components/PleaseSignIn";
-import OrderComponent from "../components/Order";
+import OrderList from "../components/OrderList";
 
-const Order = props => (
+const Orders = props => (
   <div>
     <PleaseSignIn>
-      <OrderComponent id={props.query.id} />
+      <OrderList />
     </PleaseSignIn>
   </div>
 );
 
-export default Order;
+export default Orders;

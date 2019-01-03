@@ -38,10 +38,9 @@ class Order extends Component {
   render() {
     return (
       <Query query={SINGLE_ORDER_QUERY} variables={{ id: this.props.id }}>
-        {({ data, loading, error }) => {
-          if (error) return <Error error={error} />;
+        {({ data: { order }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
-          const order = data.order;
+          if (error) return <Error error={error} />;
           return (
             <OrderStyles>
               <Head>
@@ -53,11 +52,11 @@ class Order extends Component {
               </p>
               <p>
                 <span>Charge</span>
-                <span>{order.charge}}</span>
+                <span>{order.charge}</span>
               </p>
               <p>
                 <span>Date</span>
-                <span>{format(order.createdAt, "MMMM d, YYYY h:mm a")}}</span>
+                <span>{format(order.createdAt, "MMMM d, YYYY h:mm a")}</span>
               </p>
               <p>
                 <span>Order Total</span>
@@ -70,7 +69,7 @@ class Order extends Component {
               <div className="items">
                 {order.items.map(item => (
                   <div className="order-item" key={item.id}>
-                    <img src={order.image} alt={item.title} />
+                    <img src={item.image} alt={item.title} />
                     <div className="item-detail">
                       <h2>{item.title}</h2>
                       <p>Each: {formatMoney(item.price)}</p>
