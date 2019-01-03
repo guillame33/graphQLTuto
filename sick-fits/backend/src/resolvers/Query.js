@@ -28,9 +28,9 @@ const Query = {
     return ctx.db.query.users({}, info);
   },
   async order(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
+    /* if (!ctx.request.userId) {
       throw new Error("You must be logged in!");
-    }
+    } */
     const order = await ctx.db.query.order(
       {
         where: { id: args.id }
@@ -38,12 +38,29 @@ const Query = {
       info
     );
     const ownsOrder = order.user.id === ctx.request.userId;
+
     const hasPermissionToSeeOrder = ctx.request.user.permissions.includes(
       "ADMIN"
     );
+
     if (!ownsOrder || !hasPermissionToSeeOrder) {
       throw new Error("You cant see this.");
     }
+    return order;
+  },
+  async orders(parent, args, ctx, info) {
+    const { userId } = ctx.request;
+    if (!userId) {
+      throw new Error("You must be logged in!");
+    }
+    return ctx.db.query.orders(
+      {
+        where: {
+          user: { id: userId }
+        }
+      },
+      info
+    );
   }
 };
 
